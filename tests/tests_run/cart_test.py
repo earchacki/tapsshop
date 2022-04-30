@@ -2,11 +2,17 @@ import unittest
 from selenium import webdriver
 from config.test_settings import TestSettings
 from tests.page_objects import main_page, cart_page
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
 class Tests(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome()
+        self.selenium_grid_url = 'http://192.168.50.12:4444/wd/hub'
+        # self.capabilities = webdriver.DesiredCapabilities.CHROME.copy()
+        self.driver = webdriver.Remote(options=webdriver.ChromeOptions(), command_executor=self.selenium_grid_url)
+        # self.driver = webdriver.Remote(desired_capabilities=self.capabilities, command_executor=self.selenium_grid_url)
+        # self.driver = webdriver.Chrome()
+        # self.driver = webdriver.Firefox()
         self.url = TestSettings.page_url
         self.driver.get(self.url)
         self.driver.maximize_window()
